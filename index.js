@@ -5,14 +5,14 @@ const http = require('http')
 // 加载Schema
 const schema = require('./schema')
 // datasources 默认加载index.js
-const { datasources } = require('./data-sources/index')
+const dataSources = require('./data-sources')
 
 async function startApolloServer () {
   const app = express()
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
     schema,
-    datasources
+    dataSources
   })
 
   await server.start()
