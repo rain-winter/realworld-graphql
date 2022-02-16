@@ -128,6 +128,63 @@ async createUser(parent, { user }, { dataSources }) {}
 async login(parent, { user }, { dataSources }) {}
 ~~~
 
+### 获取当前登录用户
+
+type-defs
+
+~~~js
+type Query {
+    currentUser: User
+}
+~~~
+
+~~~js
+const server = new ApolloServer({
+    schema,
+    dataSources,
+    // 所有的 GraphQL 都会
+    context({ req }) {
+      // console.log(req.headers)
+      const token = req.headers['authorization']
+      return {
+        token
+      }
+    },
+  })
+~~~
+
+~~~js
+Query {
+    currentUser(parent, args, context, info) {
+        console.log(context.token)
+    }
+}
+~~~
+
+### 指令
+
+~~~js
+mutation login($if: Boolean!) {
+  login(user: { email: "100@qq.com", password: "111" }) {
+    user {
+      username @include(if: false) // false，不显示字段
+      email @skip(if: $if) // true不显示字段
+      token
+    }
+  }
+}
+~~~
+
+
+
+
+
+
+
+
+
+
+
 ## 文章
 
 

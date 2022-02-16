@@ -5,7 +5,8 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
   type User {
     email: String!,
-    username: String!,
+    newUserName:String,
+    username: String! @deprecated(reason:"请使用newUserName"),
     token: String,
     bio: String,
     image: String
