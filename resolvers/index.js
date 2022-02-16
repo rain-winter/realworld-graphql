@@ -1,14 +1,15 @@
 const { UserInputError } = require('apollo-server-express')
+const jwt = require('../util/jwt')
+const { jwtSecret } = require('../config/config.default')
 
 const resolvers = {
   Query: {
-    foo () {
+    foo() {
       return 'hello'
     },
-
   },
   Mutation: {
-    async createUser (parent, { user }, { dataSources }) {
+    async createUser(parent, { user }, { dataSources }) {
       // 判断用户、邮箱是否存在
       const users = dataSources.users
       const user1 = await users.findByEmail(user.email)
@@ -23,15 +24,24 @@ const resolvers = {
       const userData = await users.saveUser(user)
       console.log(userData)
       // 生成token
+      const token = await jwt.sign(
+        {
+          userId: userData._id,
+        },
+        jwtSecret,
+        {
+          expiresIn: 60 * 60 * 24,
+        }
+      )
       // 返回客户端
       return {
         user: {
           ...userData.toObject(),
-          token: '123'
-        }
+          token,
+        },
       }
-    }
-  }
+    },
+  },
 }
 
 module.exports = resolvers
