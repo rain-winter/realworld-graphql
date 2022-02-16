@@ -33,7 +33,7 @@ function authDirectiveTransformer(schema, directiveName) {
             console.log(decodedData)
             // 拿到当前的用户
             const user = await dataSources.users.findById(decodedData.userId)
-            console.log(user)
+            //console.log(user)
             // 把当前用户添加到context上下文对象上
             context.user = user
           } catch (err) {
@@ -43,6 +43,7 @@ function authDirectiveTransformer(schema, directiveName) {
           const result = await resolve(source, args, context, info)
           return result
         }
+        return fieldConfig
       }
     },
   })

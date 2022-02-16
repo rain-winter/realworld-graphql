@@ -20,7 +20,7 @@ const resolvers = {
   Query: {
     foo(parent, args, context, info) {
       // 通过auth的设置，我们可以在context里拿到当前用户
-      console.log('foo resolve', context.user)
+      // console.log('foo resolve', context.user)
       return 'hello'
     },
     currentUser(parent, args, context, info) {
@@ -76,6 +76,16 @@ const resolvers = {
           ...userData.toObject(),
           token,
         },
+      }
+    },
+
+    async updateUser(parent, { user: userInput }, { user, dataSources }) {
+      if (userInput.password) {
+        userInput.password = md5(userInput.password)
+      }
+      const res = await dataSources.users.updateUser(user._id, userInput)
+      return {
+        user: res,
       }
     },
   },

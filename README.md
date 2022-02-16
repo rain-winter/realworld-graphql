@@ -209,6 +209,24 @@ schema = upperDirectiveTransformer(schema, 'upper')
 
 
 
+### 更新用户
+
+~~~js
+// type-defs
+const typeDefs = gql`
+    input UpdateUserInput {
+        email: String
+        username: String
+        password: String
+        image: String
+        bio: String
+     }
+    type Mutation {
+  	  updateUser (user: UpdateUserInput): UserPayLoad @auth
+ 	}
+`
+~~~
+
 
 
 

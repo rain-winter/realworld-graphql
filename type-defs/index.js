@@ -9,8 +9,8 @@ const typeDefs = gql`
 
   type User {
     email: String!,
-    newUserName:String,
-    username: String! @deprecated(reason:"请使用newUserName"),
+    # newUserName:String,@deprecated(reason:"请使用newUserName")
+    username: String! ,
     token: String,
     bio: String,
     image: String
@@ -35,10 +35,19 @@ const typeDefs = gql`
     email: String!,
     password: String!
   }
+  input UpdateUserInput {
+    email: String
+    username: String
+    password: String
+    image: String
+    bio: String
+  }
 
+  # 它只能更新当前用户，所以加了auth指令
   type Mutation {
     login (user: LoginInput!): UserPayLoad
     createUser (user: CreateUserInput): UserPayLoad
+    updateUser (user: UpdateUserInput): UserPayLoad @auth
   }
 `
 module.exports = typeDefs
