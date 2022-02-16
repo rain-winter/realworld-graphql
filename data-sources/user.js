@@ -22,8 +22,6 @@ class Users extends MongoDataSource {
   }
   //   更新数据
   updateUser(userId, data) {
-    console.log(userId)
-    console.log(data)
     return this.model.findOneAndUpdate(
       { _id: userId }, // 条件
       data,

@@ -209,7 +209,7 @@ schema = upperDirectiveTransformer(schema, 'upper')
 
 
 
-### 更新用户
+### 更新当前登录的用户
 
 ~~~js
 // type-defs
@@ -227,13 +227,24 @@ const typeDefs = gql`
 `
 ~~~
 
+~~~js
+// data-sources
+// 必须返回，不反回不更新
+updateUser(userId, data) {
+    return this.model.findOneAndUpdate(
+        {  _id: userId }, // 条件
+        data,
+        { new: true,} // 默认返回更新前的数据。tru返回更新后的数据
+    )
+}
+~~~
 
-
-
-
-
-
-
+~~~js
+// resolvers.js
+async updateUser(parent, { user: userInput }, { user, dataSources }) { 
+    // 调用更新用户的方法，并返回数据
+},
+~~~
 
 ## 文章
 

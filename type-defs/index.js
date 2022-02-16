@@ -14,6 +14,7 @@ const typeDefs = gql`
     token: String,
     bio: String,
     image: String
+    following: Boolean
   }
   # 返回这个对象
   type UserPayLoad {
@@ -43,11 +44,38 @@ const typeDefs = gql`
     bio: String
   }
 
+  # Article
+  input CreateArticleInput {
+    title: String!
+    description: String!
+    body: String!
+    tagList: [String!]
+  }
+  type Article {
+    _id: String!
+    title: String!
+    description: String!
+    body: String!
+    tagList: [String!]
+    createdAt: String!
+    updateAt: String!
+    favorited: Boolean
+    favoritesCount: Int
+    author: User
+  }
+  type CreateArticlePayloas {
+    article: Article
+  }
+
   # 它只能更新当前用户，所以加了auth指令
   type Mutation {
+    # User
     login (user: LoginInput!): UserPayLoad
     createUser (user: CreateUserInput): UserPayLoad
     updateUser (user: UpdateUserInput): UserPayLoad @auth
+    
+    # Article
+    createArticle (article: CreateArticleInput): Article
   }
 `
 module.exports = typeDefs
