@@ -97,3 +97,38 @@ exports.verify = promisify(jwt.verify)
 exports.decode = promisify(jwt.decode)
 ~~~
 
+~~~js
+const token = await jwt.sign(
+    {userId: userData._id,},
+    jwtSecret,
+    {expiresIn: 60 * 60 * 24,}
+)
+~~~
+# 接口
+
+## 用户
+
+### 添加用户
+
+type-defs
+
+~~~js
+const typeDefs = gql`
+	type Mutation {
+		login (user: LoginInput!): UserPayLoad
+		createUser (user: CreateUserInput): UserPayLoad
+	}
+`
+~~~
+
+resolvers
+
+~~~js
+async createUser(parent, { user }, { dataSources }) {}
+async login(parent, { user }, { dataSources }) {}
+~~~
+
+## 文章
+
+
+

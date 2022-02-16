@@ -21,6 +21,12 @@ const resolvers = {
     foo() {
       return 'hello'
     },
+    currentUser(parent, args, context, info) {
+      // 获取当前用户的信息
+      // console.log(context.token)
+      // 校验当前的登录状态
+      // 返回用户信息
+    },
   },
   Mutation: {
     async createUser(parent, { user }, { dataSources }) {

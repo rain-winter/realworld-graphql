@@ -17,6 +17,7 @@ const typeDefs = gql`
 
   type Query {
     foo: String
+    currentUser: User
   }
 
   input LoginInput {

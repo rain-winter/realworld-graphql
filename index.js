@@ -7,12 +7,20 @@ const schema = require('./schema')
 // datasources 默认加载index.js
 const dataSources = require('./data-sources')
 
-async function startApolloServer () {
+async function startApolloServer() {
   const app = express()
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
     schema,
-    dataSources
+    dataSources,
+    // 所有的 GraphQL 都会
+    context({ req }) {
+      // console.log(req.headers)
+      const token = req.headers['authorization']
+      return {
+        token
+      }
+    },
   })
 
   await server.start()
