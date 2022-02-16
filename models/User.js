@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-
 const baseModel = require('./base-model')
 
 var UserSchema = new mongoose.Schema(
@@ -12,6 +11,9 @@ var UserSchema = new mongoose.Schema(
       required: [true, "can't be blank"],
       match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
       index: true,
+    },
+    password:{
+      type: String,
     },
     email: {
       type: String,
@@ -31,5 +33,4 @@ var UserSchema = new mongoose.Schema(
   { timestamps: true, usePushEach: true }
 )
 
-
-mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema)

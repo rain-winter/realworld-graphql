@@ -7,17 +7,17 @@ const { MongoDataSource } = require('apollo-datasource-mongodb')
 
 class Users extends MongoDataSource {
     findByEmail (email) {
-        return this.findByFields({
-            email
-        })
-
+        return this.model.findOne({ email })
     }
     findByUsername (username) {
         return this.model.findOne({ username })
     }
-    getUser () {
-        return this.findOneById("620b88d0438c6ba6faa58b04")
+    // 保存到数据库
+    saveUser (args) {
+        const user = new this.model(args)
+        return user.save()
     }
+
 }
 
 module.exports = Users

@@ -5,7 +5,6 @@ const { dbUrl } = require('../config/config.default')
 mongoose.connect(dbUrl);
 
 const db = mongoose.connection
-
 db.on('error', err => {
     console.log('MongoDB 数据库连接失败:', err)
 })
