@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const baseModel = require('./base-model')
+const md5 = require('../util/md5') // md5 加密函数
 
-var UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     ...baseModel,
     username: {
@@ -12,8 +13,10 @@ var UserSchema = new mongoose.Schema(
       match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
       index: true,
     },
-    password:{
+    password: {
       type: String,
+      required: true,
+      set: value => md5(value)
     },
     email: {
       type: String,
@@ -23,7 +26,10 @@ var UserSchema = new mongoose.Schema(
       match: [/\S+@\S+\.\S+/, 'is invalid'],
       index: true,
     },
-    bio: String,
+    bio: {
+      type: String,
+      default: null
+    },
     image: String,
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
