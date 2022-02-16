@@ -3,6 +3,8 @@
  */
 const { gql } = require('apollo-server-express')
 const typeDefs = gql`
+  directive @upper on FIELD_DEFINITION
+
   type User {
     email: String!,
     newUserName:String,
@@ -17,7 +19,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    foo: String
+    foo: String @upper
     currentUser: User
   }
 

@@ -18,9 +18,10 @@ async function startApolloServer() {
       // console.log(req.headers)
       const token = req.headers['authorization']
       return {
-        token
+        token,
       }
     },
+    // schemaDirectives: {},
   })
 
   await server.start()
