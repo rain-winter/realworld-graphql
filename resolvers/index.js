@@ -18,7 +18,9 @@ const generateToken = (userId) => {
 
 const resolvers = {
   Query: {
-    foo() {
+    foo(parent, args, context, info) {
+      // 通过auth的设置，我们可以在context里拿到当前用户
+      console.log('foo resolve', context.user)
       return 'hello'
     },
     currentUser(parent, args, context, info) {
@@ -26,6 +28,7 @@ const resolvers = {
       // console.log(context.token)
       // 校验当前的登录状态
       // 返回用户信息
+      return context.user
     },
   },
   Mutation: {

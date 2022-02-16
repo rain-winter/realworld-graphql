@@ -17,6 +17,9 @@ class Users extends MongoDataSource {
         const user = new this.model(args)
         return user.save()
     }
+    findById(userId){
+        return this.findOneById(userId)
+    }
 
 }
 

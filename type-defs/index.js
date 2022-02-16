@@ -3,7 +3,9 @@
  */
 const { gql } = require('apollo-server-express')
 const typeDefs = gql`
+  # 自定义指令
   directive @upper on FIELD_DEFINITION
+  directive @auth on FIELD_DEFINITION
 
   type User {
     email: String!,
@@ -19,8 +21,9 @@ const typeDefs = gql`
   }
 
   type Query {
-    foo: String @upper
-    currentUser: User
+    # foo: String @upper
+    foo: String @auth
+    currentUser: User @auth
   }
 
   input LoginInput {

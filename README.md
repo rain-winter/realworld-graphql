@@ -133,33 +133,42 @@ async login(parent, { user }, { dataSources }) {}
 type-defs
 
 ~~~js
-type Query {
-    currentUser: User
-}
+const typeDefs = gql`
+  # 自定义指令
+  directive @auth on FIELD_DEFINITION
+  type Query {
+  	currentUser: User @auth
+  }
+`
 ~~~
 
 ~~~js
+// index.js
 const server = new ApolloServer({
     schema,
     dataSources,
-    // 所有的 GraphQL 都会
-    context({ req }) {
-      // console.log(req.headers)
+    context({ req }) { // 所有的 GraphQL 都会经过这里
       const token = req.headers['authorization']
-      return {
-        token
-      }
+      return {token }
     },
-  })
+ })
 ~~~
 
 ~~~js
-Query {
+// auth.js
+我们在这里通过操作获取context里的token，然后添加到context上
+~~~
+
+~~~js
+// resolvers.js
+const resolvers = {
     currentUser(parent, args, context, info) {
-        console.log(context.token)
+        return context.user // 在这直接返回当前用户
     }
 }
 ~~~
+
+
 
 ### 指令
 
@@ -173,6 +182,29 @@ mutation login($if: Boolean!) {
     }
   }
 }
+~~~
+
+### 自定义指令
+
+type-defs
+
+~~~js
+const typeDefs = gql`
+  # 声明
+  directive @upper on FIELD_DEFINITION
+  type Query {
+    foo: String @upper
+    currentUser: User
+  }
+ `
+~~~
+
+~~~js
+// 大写指令 schema.js
+const { mapSchema, getDirective, MapperKind } = require('@graphql-tools/utils')
+const { defaultFieldResolver } = require('graphql')
+function upperDirectiveTransformer(schema, directiveName) {}
+schema = upperDirectiveTransformer(schema, 'upper')
 ~~~
 
 
