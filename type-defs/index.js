@@ -44,7 +44,7 @@ const typeDefs = gql`
     bio: String
   }
 
-  # Article
+  # Article 创建文章 传递的参数
   input CreateArticleInput {
     title: String!
     description: String!
@@ -52,7 +52,7 @@ const typeDefs = gql`
     tagList: [String!]
   }
   type Article {
-    _id: String!
+    _id: ID!
     title: String!
     description: String!
     body: String!
@@ -63,7 +63,8 @@ const typeDefs = gql`
     favoritesCount: Int
     author: User
   }
-  type CreateArticlePayloas {
+  # 创建完，返回的数据格式
+  type CreateArticlePayload {
     article: Article
   }
 
@@ -74,8 +75,8 @@ const typeDefs = gql`
     createUser (user: CreateUserInput): UserPayLoad
     updateUser (user: UpdateUserInput): UserPayLoad @auth
     
-    # Article
-    createArticle (article: CreateArticleInput): Article
+    # Article ,他需要经过权限认证，就有了user._id
+    createArticle (article: CreateArticleInput): CreateArticlePayload @auth
   }
 `
 module.exports = typeDefs

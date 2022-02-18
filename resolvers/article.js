@@ -1,8 +1,13 @@
 module.exports = {
   Query: {},
   Mutation: {
-    createArticle() {
-      console.log(123)
+    async createArticle(parent, { article }, { user, dataSources }) {
+      article.auth = user._id // 给它添加一个auth字段
+      const res = await dataSources.articles.createArticle(article)
+      
+      return {
+        article: res,
+      }
     },
   },
 }
