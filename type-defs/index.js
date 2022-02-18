@@ -21,10 +21,15 @@ const typeDefs = gql`
     user: User
   }
 
+  type ArticlePayload {
+    articles: [Article!],
+    articlesCount: Int!
+  }
   type Query {
     # foo: String @upper
     foo: String @auth
     currentUser: User @auth
+    articles: ArticlePayload
   }
 
   input LoginInput {
@@ -52,7 +57,7 @@ const typeDefs = gql`
     tagList: [String!]
   }
   type Article {
-    _id: ID!
+    _id: String!
     title: String!
     description: String!
     body: String!
